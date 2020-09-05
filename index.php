@@ -167,7 +167,7 @@ $pages = new Pages($_GET['pages'],$_SESSION['grup']) ;
               <div class="page-title-wrapper">
                   <div class="page-title-heading">
                   <div class="page-title-icon">
-                      <i class="pe-7s-car icon-gradient bg-mean-fruit">
+                      <i class="pe-7s-bookmarks icon-gradient bg-mean-fruit">
                       </i>
                   </div>
                   <div>Innovasi Publishing
