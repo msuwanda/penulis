@@ -224,8 +224,7 @@ $pages = new Pages($_GET['pages'],$_SESSION['grup']) ;
 <script src="./assets/sweetalert2.all.min.js"></script>
 <script src="./assets/react.development.js" ></script>
 <script src="./assets/react-dom.development.js" ></script>
-<script src="./assets/babel.min.js"></script>
-<script src="<?= $pages->getScript() ?>" type="text/babel"></script>
+<script src="<?= $pages->getScript() ?>"></script>
 
 </html>
 
