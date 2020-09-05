@@ -1,0 +1,507 @@
+<?php
+require __DIR__.'/vendor/autoload.php';
+
+use Symfony\Component\Console\Application;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
+use Symfony\Component\Console\Helper\ProgressBar;
+ProgressBar::setFormatDefinition('custom', " [<fg=yellow>%message:-40s%</>]\n %current%/%max% [%bar%] %percent:3s%%\n [%memory%]                         <bg=magenta>[アニサ]</>");
+
+$console = new Application('mandala', 'v.1.0');
+$fileSystem = new Filesystem();
+/* db config */
+
+include $_SERVER['DOCUMENT_ROOT']."dbconfig.php";	
+$PHOST	= $_HOST;
+$PNAME	= $_DBNAME;
+$PUSER	= $_DBUSER;
+$PPASS	= $_DBPASS;
+$PLINK 	= new PDO("mysql:host=".$PHOST.";dbname=".$PNAME, $PUSER, $PPASS, array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
+function Api_key()
+{
+	$chars = "abcdefghijkmnopqrstuvwxyz023456789ABCDEFGHIJKLMNOPQRSTU";
+	$i = 0;
+	$pass = '' ;
+
+	while ($i <= 10) {
+			$num = rand(0,55);
+			$tmp = substr($chars, $num, 1);
+			$pass = $pass . $tmp;
+			$i++;
+	}
+
+	return "A-".$pass;
+}
+
+$api_key = Api_key() ;
+$console
+  // console comand name
+	->register('install')
+	->setCode(function (InputInterface $input, OutputInterface $output) use ($fileSystem,$PLINK){
+
+
+
+		$_query_1 = "DROP TABLE IF EXISTS `tm_aplikasi`" ;
+		$_query_2 = "CREATE TABLE `tm_aplikasi` " ;
+		$_query_2 .= "( `app_id` char(25) NOT NULL," ;
+		$_query_2 .= "`app_index` char(25) NULL DEFAULT NULL," ;
+		$_query_2 .= "`app_nama` varchar(100) NULL DEFAULT NULL," ;
+		$_query_2 .= "`app_exe` varchar(100) NULL DEFAULT NULL," ;
+		$_query_2 .= "`app_icon` varchar(100) NULL DEFAULT NULL," ;
+		$_query_2 .= "`app_menu` int(1) NULL DEFAULT NULL," ;
+		$_query_2 .= "`app_js` int(1) NULL DEFAULT NULL," ;
+		$_query_2 .= "`app_key` varchar(100) NULL DEFAULT NULL," ;
+		$_query_2 .= "`app_desc` varchar(100) NULL DEFAULT NULL," ;
+		$_query_2 .= "`app_class` varchar(100) NULL DEFAULT NULL," ;
+		$_query_2 .= "PRIMARY KEY (`app_id`) USING BTREE," ;
+		$_query_2 .= "UNIQUE INDEX `app_id`(`app_id`) USING BTREE" ;
+		$_query_2 .= ") ENGINE = InnoDB";
+
+		$_query_3 = "DROP TABLE IF EXISTS `tr_access`" ;
+		$_query_4 = "CREATE TABLE `tr_access`  (" ;
+		$_query_4 .= "`app_id` int(11) NULL DEFAULT NULL," ;
+		$_query_4 .= "`grup_id` int(3) NULL DEFAULT NULL" ;
+		$_query_4 .= ") ENGINE = InnoDB" ;
+
+		$_query_6 = "DROP TABLE IF EXISTS `tr_grup` " ;
+		$_query_5 = "CREATE TABLE `tr_grup`  ( " ;
+		$_query_5 .= "`grup_id` char(3) NOT NULL, " ;
+		$_query_5 .= "`grup_nama` varchar(45) NOT NULL, " ;
+		$_query_5 .= "PRIMARY KEY (`grup_id`) USING BTREE " ;
+		$_query_5 .= ") ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci " ;
+
+		try {
+			$sth 	= $PLINK->prepare($_query_1);
+			$sth->execute() ;
+
+			$sth2 	= $PLINK->prepare($_query_2);
+			$sth2->execute() ;
+
+			$sth 	= $PLINK->prepare($_query_3);
+			$sth->execute() ;
+
+			$sth2 	= $PLINK->prepare($_query_4);
+			$sth2->execute() ;
+
+			$sth 	= $PLINK->prepare($_query_6);
+			$sth->execute() ;
+
+			$sth2 	= $PLINK->prepare($_query_5);
+			$sth2->execute() ;
+
+		} catch (\Exception $e) {
+					$output->writeln($e);
+		}
+
+
+
+
+
+
+		$output->writeln([
+				"\n",
+				" Created TABLE           --- <info></info>",
+				"\n",
+		]);
+
+
+});
+
+
+$console
+  // console comand name
+	->register('crud')
+	->addArgument('tabel', InputArgument::REQUIRED, 'Folder aplikasi')
+	->addArgument('folder', InputArgument::REQUIRED, 'app name')
+  	->addArgument('kode_name', InputArgument::REQUIRED, 'kode aplikasi tm aplikasi')
+	->addArgument('modul_name', InputArgument::REQUIRED, 'Folder aplikasi')
+	->setCode(function (InputInterface $input, OutputInterface $output) use ($api_key,$fileSystem,$PLINK){
+
+		$rows = 17;
+		$progressBar = new ProgressBar($output, $rows);
+		$progressBar->setBarCharacter('<fg=magenta>=</>');
+		$progressBar->setProgressCharacter("<fg=magenta>アニサ</>");
+		$progressBar->setFormat('custom');
+		$progressBar->setMessage('Start');
+
+		$output->writeln([
+				"\n",
+				" Mandala app generator -- modul  <comment>494C5641</comment>",
+				" -----------------------------------",
+		]);
+		$column = "SHOW COLUMNS FROM ".$input->getArgument('tabel') ;
+		$sth 	= $PLINK->prepare($column);
+		$sth->execute();
+		$rows = $sth->fetchAll(PDO::FETCH_ASSOC) ;
+		
+		$tabel_name  = 	$input->getArgument('tabel') ;
+		$table 	 	 =  $input->getArgument('modul_name') ;
+		$base_folder =  'views/'.$input->getArgument('folder') ;
+		$api_folder  =  'api/'.$input->getArgument('folder') ;
+		$_kode    	 =  $input->getArgument('kode_name') ;
+		$_kode_t		 = ($_kode + 10) ;
+		$_kode_r		 = ($_kode + 20) ;
+		$_kode_u		 = ($_kode + 30) ;
+		$_input 		 = "" ;
+		$_update 		 = "" ;
+		$_rinci_views	 = "" ;
+		$_id_row 		 = "" ;
+		$_filter     	 = "" ;
+		$_thead			 = "" ;
+		$_tcolum 		 = "" ;
+		$_filter_manual  = "" ;
+		$_input_rinci 	= "" ;
+		foreach($rows as $row) { 
+			$_name_people = explode("_",$row['Field']) ;
+
+			$_input .= "\t\t\t\t\t"."<div class=\"position-relative row form-group\">\n" ;
+			$_input .= "\t\t\t\t\t"."  <label class=\"col-sm-2 col-form-label\">".$_name_people[1]."</label>\n" ;
+			$_input .= "\t\t\t\t\t"."    <div class=\"col-md-10\">\n" ;
+			$_input .= "\t\t\t\t\t"."        <input type=\"text\" class=\"form-control\" name=\"".$_name_people[1]."\">\n" ;
+			$_input .= "\t\t\t\t\t"."    </div>\n" ;
+			$_input .= "\t\t\t\t\t"."</div>\n" ;
+
+		}
+		$sth 	= $PLINK->prepare($query);
+			$que	= "INSERT INTO tm_aplikasi(app_id,app_index,app_nama,app_exe,app_icon,app_menu,app_js,app_key)"." VALUES
+							('".$_kode."','".substr($_kode,0,2)."0000','".ucfirst($input->getArgument('folder'))."','".$base_folder."/view','pe-7s-rocket','1','1','".$api_key."'),
+							('".$_kode_t."','".$_kode."','".ucfirst($input->getArgument('folder'))." create','".$base_folder."/create','','0','1','".$api_key."'),
+							('".$_kode_r."','".$_kode."','".ucfirst($input->getArgument('folder'))." detail','".$base_folder."/rinci','','0','1','".$api_key."'),
+							('".$_kode_u."','".$_kode."','".ucfirst($input->getArgument('folder'))." update','".$base_folder."/update','','0','1','".$api_key."')";
+			$que2	= "INSERT INTO tr_access(app_id,grup_id) VALUES('".$_kode."','111'),('".$_kode_r."','111'),('".$_kode_t."','111'),('".$_kode_u."','111') ";
+
+			$PLINK->beginTransaction();
+		if ($PLINK->exec($que)) {
+			usleep(300000);
+			$progressBar->advance();
+			$progressBar->setMessage('insert tm_aplikasi');
+			$PLINK->exec($que2) ;
+
+			usleep(300000);
+			$progressBar->advance();
+			$progressBar->setMessage('insert tr_access');
+
+			$PLINK->commit();
+
+		usleep(300000);
+		$progressBar->advance();
+		$progressBar->setMessage('create folder views'.$base_folder.'');
+		$fileSystem->mkdir($base_folder, 0777);
+		
+		usleep(300000);
+		$progressBar->advance();
+		$progressBar->setMessage('create folder modul'.$base_folder.'');
+		$fileSystem->mkdir($api_folder, 0777);
+
+		// create modul 
+
+		usleep(300000);
+		$progressBar->advance();
+		$progressBar->setMessage('create views create.php');
+		$_tambah  = file_get_contents("src/views/create.php");
+		$_tambah  = str_replace("__APP_ROWS__", $_input, $_tambah);
+		$fp = fopen($base_folder."/create.php", "w+");
+		fwrite($fp, $_tambah);
+		fclose($fp);
+
+		usleep(300000);
+		$progressBar->advance();
+		$progressBar->setMessage('create views create.js');
+		$_tambah_js  = file_get_contents("src/views/create.js");
+		$_tambah_js  = str_replace("__URL_TAMBAH__", $api_folder."/create.php", $_tambah_js);
+		$_tambah_js  = str_replace("__RRL_TAMBAH__", $_kode, $_tambah_js);
+		$_tambah_js  = str_replace("__API_KEY__", $api_key, $_tambah_js);
+
+		$fp = fopen($base_folder."/create.js", "w+");
+		fwrite($fp, $_tambah_js);
+		fclose($fp);
+
+		usleep(300000);
+		$progressBar->advance();
+		$progressBar->setMessage('create api create.php');
+		$_tambah_api  = file_get_contents("src/api/create.php");
+		$_tambah_api  = str_replace("__API_KEY__", $api_key, $_tambah_api);
+		$_tambah_api  = str_replace("__TB_NAME__", $tabel_name, $_tambah_api);
+
+		$fp = fopen($api_folder."/create.php", "w+");
+		fwrite($fp, $_tambah_api);
+		fclose($fp);
+
+		// update modul 
+
+		usleep(300000);
+		$progressBar->advance();
+		$progressBar->setMessage('create views update.php');
+		$_update_v  = file_get_contents("src/views/update.php");
+		$_update_v  = str_replace("__APP_ROWS__", $_update, $_update_v);
+		$fp = fopen($base_folder."/update.php", "w+");
+		fwrite($fp, $_update_v);
+		fclose($fp);
+
+		usleep(300000);
+		$progressBar->advance();
+		$progressBar->setMessage('create views update.js');
+		$_update_js  = file_get_contents("src/views/update.js");
+		$_update_js  = str_replace("__URL_TAMBAH__", $api_folder."/update.php", $_update_js);
+		$_update_js  = str_replace("__URL_VIEWS__", $api_folder."/view_s.php", $_update_js);
+		$_update_js  = str_replace("__RRL_TAMBAH__", $_kode, $_update_js);
+		$_update_js  = str_replace("__API_KEY__", $api_key, $_update_js);
+		$_update_js  = str_replace("__RIN_ROWS__", $_rinci_views, $_update_js);
+		$_update_js  = str_replace("__ROW_ID__", $_id_row, $_update_js);
+
+		$fp = fopen($base_folder."/update.js", "w+");
+		fwrite($fp, $_update_js);
+		fclose($fp);
+
+		usleep(300000);
+		$progressBar->advance();
+		$progressBar->setMessage('create api update.php');
+		$_update_api  = file_get_contents("src/api/update.php");
+		$_update_api  = str_replace("__API_KEY__", $api_key, $_update_api);
+		$_update_api  = str_replace("__TB_NAME__", $tabel_name, $_update_api);
+
+		$fp = fopen($api_folder."/update.php", "w+");
+		fwrite($fp, $_update_api);
+		fclose($fp);
+
+
+		// rinci modul 
+
+		usleep(300000);
+		$progressBar->advance();
+		$progressBar->setMessage('create views rinci.php');
+		$_rinci  = file_get_contents("src/views/rinci.php");
+		$_rinci  = str_replace("__APP_ROWS__", $_input_rinci, $_rinci);
+		$fp = fopen($base_folder."/rinci.php", "w+");
+		fwrite($fp, $_rinci);
+		fclose($fp);
+
+		usleep(300000);
+		$progressBar->advance();
+		$progressBar->setMessage('create views rinci.js');
+		$_rinci_js  = file_get_contents("src/views/rinci.js");
+		$_rinci_js  = str_replace("__URL_VIEWS__", $api_folder."/view_s.php", $_rinci_js);
+		$_rinci_js  = str_replace("__API_KEY__", $api_key, $_rinci_js);
+		$_rinci_js  = str_replace("__RIN_ROWS__", $_rinci_views, $_rinci_js);
+		$_rinci_js  = str_replace("__ROW_ID__", $_id_row, $_rinci_js);
+
+		$fp = fopen($base_folder."/rinci.js", "w+");
+		fwrite($fp, $_rinci_js);
+		fclose($fp);
+
+		// view s 
+
+		usleep(300000);
+		$progressBar->advance();
+		$progressBar->setMessage('create api view_s.php');
+		$_view_s_api  = file_get_contents("src/api/view_s.php");
+		$_view_s_api  = str_replace("__API_KEY__", $api_key, $_view_s_api);
+		$_view_s_api  = str_replace("__TB_NAME__", $tabel_name, $_view_s_api);
+
+		$fp = fopen($api_folder."/view_s.php", "w+");
+		fwrite($fp, $_view_s_api);
+		fclose($fp);
+
+		// hapus s 
+
+		usleep(300000);
+		$progressBar->advance();
+		$progressBar->setMessage('create api hapus.php');
+		$_hapus_api  = file_get_contents("src/api/hapus.php");
+		$_hapus_api  = str_replace("__API_KEY__", $api_key, $_hapus_api);
+		$_hapus_api  = str_replace("__TB_NAME__", $tabel_name, $_hapus_api);
+
+		$fp = fopen($api_folder."/hapus.php", "w+");
+		fwrite($fp, $_hapus_api);
+		fclose($fp);
+
+		// hapus s 
+
+		usleep(300000);
+		$progressBar->advance();
+		$progressBar->setMessage('create api view.php');
+		$_view_api  = file_get_contents("src/api/view.php");
+		$_view_api  = str_replace("__ROW_ID__", $_id_row, $_view_api);
+		$_view_api  = str_replace("__TB_NAME__", $tabel_name, $_view_api);
+		$_view_api  = str_replace("__FL_ROWS__", $table_ar_ss, $_view_api);
+
+		$fp = fopen($api_folder."/view.php", "w+");
+		fwrite($fp, $_view_api);
+		fclose($fp);
+
+		// view table 
+
+		usleep(300000);
+		$progressBar->advance();
+		$progressBar->setMessage('create views view.js');
+		$_table_js  = file_get_contents("src/views/table.js");
+		$_table_js  = str_replace("__URL_VIEWS__", $api_folder."/view.php", $_table_js);
+		$_table_js  = str_replace("__URL_HAPUS__", $api_folder."/hapus.php", $_table_js);
+		$_table_js  = str_replace("__R_RINCI__", $_kode_r, $_table_js);
+		$_table_js  = str_replace("__R_UPDATE__", $_kode_u, $_table_js);
+		$_table_js  = str_replace("__API_KEY__", $api_key, $_table_js);
+		$_table_js  = str_replace("__ROW_ID__", $_id_row, $_table_js);
+		$_table_js  = str_replace("__COL_ROWS__", $_tcolum, $_table_js);
+		$_table_js  = str_replace("__FLM_ROWS__", $_filter_manual, $_table_js);
+		$fp = fopen($base_folder."/view.js", "w+");
+		fwrite($fp, $_table_js);
+		fclose($fp);
+
+		usleep(300000);
+		$progressBar->advance();
+		$progressBar->setMessage('create views view.php');
+		$_table_v  = file_get_contents("src/views/table.php");
+		$_table_v  = str_replace("__FL_ROWS__", $_filter, $_table_v);
+		$_table_v  = str_replace("__TH_ROWS__", $_thead, $_table_v);
+		$_table_v  = str_replace("__URL_TAMBAH__", $_kode_t, $_table_v);
+
+		$fp = fopen($base_folder."/view.php", "w+");
+		fwrite($fp, $_table_v);
+		fclose($fp);
+
+	} else {
+		usleep(300000);
+		$progressBar->advance();
+		$progressBar->setMessage('error ');
+	}
+		$progressBar->finish();
+		$output->writeln('');
+		$output->writeln([
+				"\n",
+				" Created TABLE           --- <info>".$tabel_name."</info>",
+				" Insert tm_aplikasi      --- <info>".$_kode."</info>",
+				" Insert tm_access        --- <info>".$_kode."</info>",
+				" Created view folder     --- <info>/".$base_folder."</info>",
+				" Created Api  folder     --- <info>/".$api_folder."</info>",
+				" Created File view       --- <info>/".$base_folder."/create.php</info>",
+				" Created File view       --- <info>/".$base_folder."/create.js</info>",
+				" Created File api        --- <info>/".$api_folder."/create.php</info>",
+				" Created File view       --- <info>/".$base_folder."/update.php</info>",
+				" Created File view       --- <info>/".$base_folder."/update.js</info>",
+				" Created File api        --- <info>/".$api_folder."/update.php</info>",
+				" Created File view       --- <info>/".$base_folder."/rinci.php</info>",
+				" Created File view       --- <info>/".$base_folder."/rinci.js</info>",
+				" Created File api        --- <info>/".$api_folder."/view_s.php</info>",
+				" Created File api        --- <info>/".$api_folder."/hapus.php</info>",
+				" Created File api        --- <info>/".$api_folder."/view.php</info>",
+				"\n",
+		]);
+
+});
+$console
+  // console comand name
+	->register('database')
+	->addArgument('host', InputArgument::REQUIRED, 'server database')
+	->addArgument('user', InputArgument::REQUIRED, 'username database')
+	->addArgument('password', InputArgument::REQUIRED, 'password database')
+	->addArgument('db_name', InputArgument::REQUIRED, 'nama database')
+	->setCode(function (InputInterface $input, OutputInterface $output) use ($fileSystem){
+
+		$_table_v  = file_get_contents("src/config/setDB01.php");
+		$_table_v  = str_replace("__HOST__", $_filter, $_table_v);
+		$_table_v  = str_replace("__DB_NAMA__", $_thead, $_table_v);
+		$_table_v  = str_replace("__DB_USER__", $_kode_t, $_table_v);
+		$_table_v  = str_replace("__DB_PASS__", $_kode_t, $_table_v);
+
+		$fp = fopen("conf/setDB01.php", "w+");
+		fwrite($fp, $_table_v);
+		fclose($fp);
+
+		$output->writeln('');
+		$output->writeln([
+				"\n",
+				" Created TABLE           --- <info>".$tabel_name."</info>",
+				" Insert tm_aplikasi      --- <info>".$_kode."</info>",
+				" Insert tm_access        --- <info>".$_kode."</info>",
+				" Created view folder     --- <info>/".$base_folder."</info>",
+				" Created Api  folder     --- <info>/".$api_folder."</info>",
+				" Created File view       --- <info>/".$base_folder."/create.php</info>",
+				" Created File view       --- <info>/".$base_folder."/create.js</info>",
+				" Created File api        --- <info>/".$api_folder."/create.php</info>",
+				" Created File view       --- <info>/".$base_folder."/update.php</info>",
+				" Created File view       --- <info>/".$base_folder."/update.js</info>",
+				" Created File api        --- <info>/".$api_folder."/update.php</info>",
+				" Created File view       --- <info>/".$base_folder."/rinci.php</info>",
+				" Created File view       --- <info>/".$base_folder."/rinci.js</info>",
+				" Created File api        --- <info>/".$api_folder."/view_s.php</info>",
+				" Created File api        --- <info>/".$api_folder."/hapus.php</info>",
+				" Created File api        --- <info>/".$api_folder."/view.php</info>",
+				"\n",
+		]);
+
+
+});
+$console
+  // console comand name
+	->register('crud-3')
+	->addArgument('tabel', InputArgument::REQUIRED, 'Table Name')
+	->addArgument('folder', InputArgument::REQUIRED, 'Folder Name ')
+	->setCode(function (InputInterface $input, OutputInterface $output) use ($api_key,$fileSystem,$PLINK){
+
+		$rows = 17;
+		$progressBar = new ProgressBar($output, $rows);
+		$progressBar->setBarCharacter('<fg=magenta>=</>');
+		$progressBar->setProgressCharacter("<fg=magenta>アニサ</>");
+		$progressBar->setFormat('custom');
+		$progressBar->setMessage('Start');
+
+		$output->writeln([
+				"\n",
+				" Mandala app generator -- modul  <comment>494C5641</comment>",
+				" -----------------------------------",
+		]);
+		$column = "SHOW COLUMNS FROM ".$input->getArgument('tabel') ;
+		$sth 	= $PLINK->prepare($column);
+		$sth->execute();
+		$rows = $sth->fetchAll(PDO::FETCH_ASSOC) ;
+		
+		$tabel_name  	= 	$input->getArgument('tabel') ;
+		$table 	 	 	=  $input->getArgument('modul_name') ;
+		$base_folder 	= 'views/'.$input->getArgument('folder') ;
+		$api_folder  	= 'api/'.$input->getArgument('folder') ;
+		$_kode    	 	= explode("_",$input->getArgument('table')) ;
+		$_kode_create		= $_kode[1]."_create" ;
+		$_kode_rinci		= $_kode[1]."_rinci"  ;
+		$_kode_update		= $_kode[1]."_update" ;
+		$_input_create 	= "" ;
+		foreach($rows as $data) {
+			$_name_people = explode("_",$data['Field']) ;
+
+			$_input_create .= "\t\t\t\t\t"."<div class=\"position-relative row form-group\">\n" ;
+			$_input_create .= "\t\t\t\t\t"."  <label class=\"col-sm-2 col-form-label\">".ucfirst($_name_people[1])."</label>\n" ;
+			$_input_create .= "\t\t\t\t\t"."    <div class=\"col-md-10\">\n" ;
+			$_input_create .= "\t\t\t\t\t"."        <input type=\"text\" class=\"form-control\" name=\"".$_name_people[1]."\">\n" ;
+			$_input_create .= "\t\t\t\t\t"."    </div>\n" ;
+			$_input_create .= "\t\t\t\t\t"."</div>\n" ;
+		}
+		$output->writeln($_input_create) ;
+
+		usleep(300000);
+		$progressBar->advance();
+		$progressBar->setMessage('create folder views'.$base_folder.'');
+		$fileSystem->mkdir($base_folder, 0777);
+		
+		usleep(300000);
+		$progressBar->advance();
+		$progressBar->setMessage('create folder modul'.$base_folder.'');
+		$fileSystem->mkdir($api_folder, 0777);
+
+		// create modul 
+
+		usleep(300000);
+		$progressBar->advance();
+		$progressBar->setMessage('create views create.php');
+		$_tambah  = file_get_contents("src/views/create.php");
+		$_tambah  = str_replace("__INPUT_TITTILE__", $_kode , $_tambah);
+		$_tambah  = str_replace("__INPUT_ROWS__", $_input_create, $_tambah);
+		$fp = fopen($base_folder."/create.php", "w+");
+		fwrite($fp, $_tambah);
+		fclose($fp);
+
+});
+
+$console->run();

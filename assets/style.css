@@ -1,0 +1,70 @@
+.app-sidebar .scrollbar-sidebar {
+    overflow: scroll;
+}
+.scrollbar-sidebar::-webkit-scrollbar {
+    width: 0px;
+}
+
+.scrollbar-sidebar::-webkit-scrollbar-track {
+}
+
+.scrollbar-sidebar::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background: #ccc ;
+}
+.hidden {
+  display: none ;
+}
+.page-link-prev {
+    position: relative;
+    display: block;
+    padding: .5rem .75rem;
+    margin-left: 1px;
+    line-height: 1.25;
+    color: #007bff;
+    cursor: pointer;
+    background-color: #fff;
+    border: 1px solid #dee2e6;
+    border-radius: 5px 0px 0px 5px ;
+}
+.page-link-next:disabled, .page-link-prev:disabled {
+    opacity: .65;
+    color:black;
+}
+.page-link-next {
+    position: relative;
+    display: block;
+    padding: .5rem .75rem;
+    margin-left: -1px;
+    line-height: 1.25;
+    cursor: pointer;
+    color: #007bff;
+    background-color: #fff;
+    border: 1px solid #dee2e6;
+    border-radius: 0px 5px 5px 0 ;
+}
+.table th {
+    border-top: 0px !important;
+} 
+.pageaction { 
+    display: flex;
+    padding-left: 0;
+    margin: 0;
+}
+
+.data-full {
+    border-bottom: 1px solid #cbcccd;
+    padding: 10px;
+    position: relative;
+    width: 100%;
+    margin-right: 10px;
+}
+.data-title { 
+    padding: 3px 0 0;
+    font-size: .88rem;
+    opacity: .6;
+}
+.data-body { 
+    font-size: 1.1rem;
+    font-weight: 400;
+}

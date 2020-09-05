@@ -1,0 +1,5 @@
+Options +FollowSymLinks
+RewriteEngine On
+RewriteRule ^([0-9]+) /index.php?pages=$1 [QSA,L]
+RewriteRule /login /login.php [QSA,L]
+RewriteRule /register /register.php [QSA,L]

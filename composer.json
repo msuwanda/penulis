@@ -1,0 +1,18 @@
+{
+    "name": "msuwanda/mandala",
+    "description": "PHP & react Framework ",
+    "type": "project",
+    "require": {
+        "symfony/filesystem": "^4.3",
+        "symfony/console": "^4.3",
+        "cache/simple-cache-bridge": "^1.0"
+    },
+    "license": "Apache-2.0",
+    "authors": [
+        {
+            "name": "Suwanda Muhammad",
+            "email": "muhammad.suwanda@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable"
+}
