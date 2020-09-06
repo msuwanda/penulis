@@ -1,3 +1,4 @@
+AllowOverride All
 Options +FollowSymLinks
 RewriteEngine On
 RewriteRule ^([0-9]+) /index.php?pages=$1 [QSA,L]
