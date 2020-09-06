@@ -1,18 +1,19 @@
 <?php
-class DbConfig
-{
-    private $_host     = 'localhost';
-    private $_username = 'root';
-    private $_password = 'aldiani123';
-    private $_database = 'toko';
+    include $_SERVER['DOCUMENT_ROOT']."/dbconfig.php";
 
+class DbConfig
+{   
     protected $connection;
 
     public function __construct()
     {
+            global $_HOST;
+            global $_DBUSER;
+            global $_DBPASS;
+            global $_DBNAME;
         if (!isset($this->connection)) {
 
-            $this->connection = new PDO("mysql:host=".$this->_host.";dbname=".$this->_database, $this->_username, $this->_password, array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION)) ;
+            $this->connection = new PDO("mysql:host=".$_HOST.";dbname=".$_DBNAME, $_DBUSER, $_DBPASS, array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION)) ;
 
             if (!$this->connection) {
                 echo 'Cannot connect to database server';
