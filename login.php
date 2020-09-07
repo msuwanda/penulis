@@ -99,7 +99,7 @@
   <script>
     function simpanData() {
             const form = new FormData(document.querySelector('#formdata'));
-            const url = './loginpros.php' ;
+            const url = './proslog.php' ;
             const request = new Request(url, {
                 method: 'POST',
                 body: form

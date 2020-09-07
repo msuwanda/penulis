@@ -135,7 +135,7 @@
     }
     function simpanData() {
             const form = new FormData(document.querySelector('#formdata'));
-            const url = './registerpros.php' ;
+            const url = './prosreg.php' ;
             const request = new Request(url, {
                 method: 'POST',
                 body: form
