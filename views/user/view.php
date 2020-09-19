@@ -7,7 +7,6 @@
           List
         </div>
         <div class="btn-actions-pane-right text-capitalize">
-            <a href="/200010" class="btn btn-success">Tambah Data</a>
         </div>
       </div>
       <div class="card-body">

@@ -45,12 +45,11 @@
             </div>
             <div class="col-md-6">
                 <div class="position-relative form-group">
-                    <label for="exampletext" class=""><b>Copyright :</b></label>
+                    <label for="exampletext" class=""><b>Cover :</b></label>
                     <select name="copg" id="exampleSelect" class="form-control">
-                        <option>-</option>
-                        	<option value="All Rights Reserved">All Rights Reserved</option>
-                            <option value="Non-Registered">Non-Registered  </option>
-                            <option value="Public Domain">Public Domain</option>
+                        <option value="2">-</option>
+                        <option value="1">Rancangan sendiri</option>
+                        <option value="2">Rancangan innovasi</option>
                     </select>
                 </div>
             </div>
@@ -59,7 +58,16 @@
                     <label for="exampletext" class=""><b>File Naskah :</b></label>
                     <input name="upfile" required type="file" class="form-control-file" accept=".docx">
                     <small class="form-text text-muted">
-                        Download format naskah <a href="files/template-ukuran-A5.docx" >format-naskah-A5.docx </a>
+                        Download format naskah <a href="https://drive.google.com/file/d/1mxyRfLKwBL_oBbn-ulx8nz17HXRk-QR0/view?usp=sharing" >template ukuran novel (13,20).docx </a>
+                    </small>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="position-relative form-group">
+                    <label for="exampletext" class=""><b>File Cover :</b></label>
+                    <input name="upfilec" type="file" class="form-control-file" accept=".psd">
+                    <small class="form-text text-muted">
+                        Download format cover <a href="https://drive.google.com/file/d/14nATLFlOxIgh-pREdJuFtD0IexkYdgMR/view?usp=sharing" >template cover.psd </a>
                     </small>
                 </div>
             </div>

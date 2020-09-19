@@ -67,7 +67,7 @@ class Pages extends DbConfig
 			}
 			else {
 				$menu .= "<li>" ;
-				$menu .=   "<a class='".$class."' href='/index.php?pages=".$data['app_id']."' aria-expanded='false'>" ;
+				$menu .=   "<a class='".$class."' href='/".$data['app_id']."' aria-expanded='false'>" ;
 				$menu .=       		'<i class="metismenu-icon '.$data['app_icon'].'"></i>' ;
 				$menu .=       "".$data['app_nama']."" ;
 				$menu .=   "</a>" ;

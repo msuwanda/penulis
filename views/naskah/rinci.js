@@ -69,7 +69,7 @@ function Views() {
           <div className="col-md-12">
             <div className="position-relative row form-group">
               <div className="col-sm-6">
-                <button onClick={() => handleUpdate('Revisi', '3')} className="mt-4 mb-2 btn btn-info btn-lg btn-block">
+                <button onClick={() => window.location.href = '300200#' + getParam[0]}  className="mt-4 mb-2 btn btn-info btn-lg btn-block">
                   Revisi
                 </button>
               </div>
@@ -81,7 +81,7 @@ function Views() {
             </div>
           </div>
         )
-      } else if (Datas.ns_status == 6) {
+      } else if (Datas.ns_status == 5) {
         return (
           <div className="col-md-12">
             <div className="position-relative row form-group">
@@ -102,29 +102,13 @@ function Views() {
 
     } 
     const Publish = () => {
-      if (Datas.ns_status == 6 || Datas.ns_status == 7) {
+      if (Datas.ns_status == 3 || Datas.ns_status == 4) {
         return (
           <div className="row">
-            <div className="col-md-6">
-              <div className="data-full">
-                <div className="data-title">Instragram</div>
-                <div className="data-body">{Datas.ns_insta}</div>
-              </div>
-            </div>
-            <div className="col-md-6">
-              <div className="data-full">
-                <div className="data-title">Whatsapp</div>
-                <div className="data-body">{Datas.ns_wa}</div>
-              </div>
-            </div>
             <div className="col-md-12">
               <div className="data-full">
-                <div className="data-title">Cover</div>
-                <div className="data-body">
-                  <i className="pe-7s-file icon-gradient bg-mean-fruit"></i>
-                  {Datas.ns_cover}
-                  <a href={"/files/" + Datas.ns_cover} className="btn btn-light float-md-right"><i className="pe-7s-cloud-download"></i> Download</a>
-                </div>
+                <div className="data-title">Revisi</div>
+                <div className="data-body">{Datas.ns_insta}</div>
               </div>
             </div>
           </div>

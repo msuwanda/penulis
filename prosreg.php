@@ -6,10 +6,12 @@
 
     try{
         $PLINK->beginTransaction();
-        $que	= "INSERT INTO tm_users SET usr_email = :usrmail, usr_name = :usrname, usr_pasd = :usrpass, grup_id = '112'" ;
+        $que	= "INSERT INTO tm_users SET usr_email = :usrmail, usr_name = :usrname, usr_number = :number, usr_insta = :insta, usr_pasd = :usrpass, grup_id = '112'" ;
         $sth	= $PLINK->prepare($que) ;
         $sth->bindValue(":usrmail",$_POST['email'], PDO::PARAM_STR) ;
         $sth->bindValue(":usrname",$_POST['name'], PDO::PARAM_STR) ;
+        $sth->bindValue(":number",$_POST['number'], PDO::PARAM_STR) ;
+        $sth->bindValue(":insta",$_POST['insta'], PDO::PARAM_STR) ;
         $sth->bindValue(":usrpass",password_hash($_POST['password'], PASSWORD_DEFAULT), PDO::PARAM_STR) ;
         $sth->execute() ;
         $title  = "Good Job!" ;

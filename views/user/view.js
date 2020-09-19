@@ -10,14 +10,14 @@ function Views() {
   const [Search3, setSearch3] = R.useState([]);
 
   R.useEffect(() => {
-    const data = { appkey: "A-gxuUm4fcbfU", pages: `${count}`, search: [{ name: "kln_id", value: `${Search}` }, { name: "kln_nama", value: `${Search2}` }, { name: "kln_alamat", value: `${Search3}` }] };
-    const url = 'http://penerbit.com/view_s.php';
+    const data = { appkey: getKey(), pages: `${count}`, search: [{ name: "usr_email", value: `${Search}` }, { name: "usr_name", value: `${Search2}` }] };
+    const url = '/api/user.php';
     fetch(url, {
       method: 'POST', // or 'PUT'
       body: JSON.stringify(data),
     }).then(res => res.json()).then((data) => {
       setDatas(data);
-      console.log(data);
+      //console.log(data);
       if (count !== 0) { setBack(false) } else { setBack(true) }
       if (data.length < 10) { setNext(true) } else { setNext(false) }
     }).catch(error => console.error('Error:', error));
@@ -34,15 +34,11 @@ function Views() {
     setCount(0);
   }
   const items = Datas.map((data) =>
-    <tr key={data.kln_id} className="transition-table">
-      <td>{data.kln_id}</td>da
-      <td>{data.kln_nama}</td>
-      <td>{data.kln_npwp}</td>
-      <td><ul className="pageaction">
-        <button className="page-link-prev" onClick={() => window.location.href = '/200020#' + `${data.kln_id}` }>Rinci</button>
-        <button className="page-link-next" onClick={() => window.location.href = '/200030#' + `${data.kln_id}`}>Update</button>
-          </ul>
-      </td>
+    <tr key={data.usr_email} className="transition-table">
+      <td> {data.usr_email } </td>
+      <td> {data.usr_name} </td>
+      <td> {data.usr_number } </td>
+      <td> {data.usr_insta} </td>
     </tr>
 
   );
@@ -52,22 +48,22 @@ function Views() {
       <table className="table">
           <thead>
             <tr>
-              <th>App id</th>
-              <th>App Nama</th>
-              <th>App Com</th>
-              <th>Aksi</th>
+              <th>Email</th>
+              <th>Penulis</th>
+              <th>Number</th>
+              <th>Instagram</th>
             </tr>
+          <tr>
+            <th><input className="form-control" onKeyUp={event => handleSearch(event.target.value)} placeholder="Search"></input></th>
+            <th><input className="form-control" onKeyUp={event => handleSearch2(event.target.value)} placeholder="Search"></input></th>
+            <th></th>
+          </tr>
           </thead>
           <tbody>
             {items}
           </tbody>
           <tfoot>
-            <tr>
-            <th><input className="form-control" onKeyUp={event => handleSearch(event.target.value)} placeholder="Search"></input></th>
-            <th><input className="form-control" onKeyUp={event => handleSearch2(event.target.value)} placeholder="Search"></input></th>
-            <th><input className="form-control" onKeyUp={event => handleSearch3(event.target.value)} placeholder="Search"></input></th>
-            <th></th>
-            </tr>
+
           </tfoot>
         </table>
         <nav aria-label="Page navigation example">

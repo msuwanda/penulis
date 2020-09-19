@@ -9,7 +9,7 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta http-equiv="Content-Language" content="en">
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
   <title>Register | Innovasi</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no" />
   <meta name="description" content="This is an example dashboard created using build-in elements and components.">
@@ -53,8 +53,8 @@
                         <div class="mx-auto app-login-box col-sm-12 col-md-10 col-lg-9">
                             <div class="app-logo"></div>
                             <h4>
-                                <div>Welcome,</div>
-                                <span>It only takes a <span class="text-success">few seconds</span> to create your account</span>
+                                <div>Selamat datang,</div>
+                                <span>Hanya butuh <span class="text-success">beberapa detik</span> untuk membuat akun Anda</span>
                             </h4>
                             <div>
                                 <form class="" onsubmit="return false" id="formdata">
@@ -67,29 +67,41 @@
                                         </div>
                                         <div class="col-md-6">
                                             <div class="position-relative form-group">
-                                                <label for="exampleName" class="">Name</label>
+                                                <label for="exampleName" class="">Nama Lengkap</label>
                                                 <input name="name" id="dName" required placeholder="Name here..." type="text" class="form-control">
+                                            </div>
+                                        </div>
+						                                        <div class="col-md-6">
+                                            <div class="position-relative form-group">
+                                                <label for="exampleEmail" class="">Number Handphone</label>
+                                                <input name="number" id="" required placeholder="Number here..." type="text" class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="position-relative form-group">
+                                                <label for="exampleName" class="">Instagram</label>
+                                                <input name="insta" id="" required placeholder="Instagram here..." type="text" class="form-control">
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="position-relative form-group">
                                                 <label for="examplePassword" class=""><span class="text-danger">*</span> Password</label>
-                                                <input name="password" minlength="8" required id="Password" placeholder="Password here..." type="password" class="form-control">
+                                                <input name="password" minlength="8" required id="Password" placeholder="Password ..." type="password" class="form-control">
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="position-relative form-group">
-                                                <label for="examplePasswordRep" class=""><span class="text-danger">*</span> Repeat Password</label>
-                                                <input name="passwordrep" id="PasswordRep" placeholder="Repeat Password here..." type="password" class="form-control">
+                                                <label for="examplePasswordRep" class=""><span class="text-danger">*</span> Ulangi Password</label>
+                                                <input name="passwordrep" id="PasswordRep" placeholder="Ulangi Password anda..." type="password" class="form-control">
                                             </div>
                                         </div>
                                     </div>
                                     <div class="mt-3 position-relative form-check">
                                         <input required name="check" id="exampleCheck" type="checkbox" class="form-check-input">
-                                        <label for="exampleCheck" class="form-check-label">Accept our Terms and Conditions.</label>
+                                        <label for="exampleCheck" class="form-check-label">Terima Syarat dan Ketentuan kami.</label>
                                     </div>
                                     <div class="mt-4 d-flex align-items-center">
-                                        <h5 class="mb-0">Already have an account? <a href="/login" class="text-primary">Sign in</a></h5>
+                                        <h5 class="mb-0">Sudah memiliki akun? <a href="/login" class="text-primary">Login</a></h5>
                                         <div class="ml-auto">
                                             <button class="btn-wide btn-pill btn-shadow btn-hover-shine btn btn-primary btn-lg" onclick="simpanData()">Create Account </button>
                                         </div>

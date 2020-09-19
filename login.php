@@ -9,7 +9,7 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta http-equiv="Content-Language" content="en">
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
   <title>Login | INNOVASI</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no" />
   <meta name="description" content="This is an example dashboard created using build-in elements and components.">
@@ -55,10 +55,10 @@
                         <div class="mx-auto app-login-box col-sm-12 col-md-10 col-lg-9">
                             <div class="app-logo"></div>
                             <h4 class="mb-0">
-                                <span class="d-block">Welcome back,</span>
-                                <span>Please sign in to your account.</span>
+                                <span class="d-block">Selamat datang kembali,</span>
+                                <span>Harap masuk ke akun Anda.</span>
                             </h4>
-                            <h6 class="mt-3">No account? <a href="/register" class="text-primary">Sign up now</a></h6>
+                            <h6 class="mt-3">Tidak ada akun? <a href="/register" class="text-primary">Sign up sekarang</a></h6>
                             <div class="divider row"></div>
                             <div>
                                 <form class="" onsubmit="return false" id="formdata">

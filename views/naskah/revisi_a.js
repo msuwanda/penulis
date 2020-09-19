@@ -1,10 +1,8 @@
 function simpanData() {
-    const form = new FormData(document.querySelector('#formdata'));
-    form.append('nsid', getParam[0]);
-    const url = './publish.php'
+    const url = '/api/naskah/update.php';
     const request = new Request(url, {
         method: 'POST',
-        body: form
+        body: getInput('#formdata', [{ name: "ns_id", value: getParam[0] }],'')
     });
     fetch(request)
         .then(response => response.json())
@@ -18,7 +16,7 @@ function simpanData() {
                 confirmButtonText: 'OK'
             }).then((result) => {
                 if (data.error == 0) {
-                    window.location.href = "/400100#" + getParam[0];
+                    window.location.href = "/300100#" + getParam[0];
                 }
                 else {
                     console.log(data.error);

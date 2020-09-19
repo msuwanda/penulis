@@ -6,6 +6,12 @@
     include $_SERVER['DOCUMENT_ROOT']."/conf/setDB02.php";        
     $file = $_FILES ;
     $in = $_POST ;
+    if ($in['copg'] == '1' ) {
+        $namecover = rand(1,999)."-".$_FILES['upfilec']['name'] ;
+        move_uploaded_file($_FILES['upfilec']['tmp_name'],"./files/".$namecover) ;
+    } else {
+        $namecover = 'Rancangan Innovasi' ;
+    }
     $namefile = rand(1,999)."-".$_FILES['upfile']['name'] ;
     if(move_uploaded_file($_FILES['upfile']['tmp_name'],"./files/".$namefile)) {
 
@@ -17,7 +23,7 @@
             $sth->bindValue(":namp",$in['namp'], PDO::PARAM_STR) ;
             $sth->bindValue(":katg",$in['katg'], PDO::PARAM_STR) ;
             $sth->bindValue(":aude",$in['aude'], PDO::PARAM_STR) ;
-            $sth->bindValue(":copg",$in['copg'], PDO::PARAM_STR) ;
+            $sth->bindValue(":copg",$namecover, PDO::PARAM_STR) ;
             $sth->bindValue(":deks",$in['deks'], PDO::PARAM_STR) ;
             $sth->bindValue(":nstatus",'1', PDO::PARAM_STR) ;
             $sth->bindValue(":usremail",$_SESSION['email'], PDO::PARAM_STR) ;

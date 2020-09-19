@@ -50,6 +50,22 @@ function Views() {
       }
     })
   }
+  const Publish = () => {
+    if (Datas.ns_status == 3 || Datas.ns_status == 4) {
+      return (
+        <div className="row">
+          <div className="col-md-12">
+            <div className="data-full">
+              <div className="data-title">Apa yang harus dirubah</div>
+              <div className="data-body">{Datas.ns_insta}</div>
+            </div>
+          </div>
+        </div>
+      )
+    } else {
+      return (<div></div>)
+    }
+  } 
   if (isLoade) { 
     const Prosses = () => { 
       if (Datas.ns_status == 3) { 
@@ -64,53 +80,10 @@ function Views() {
           </div>
         </div>
         )  
-      } else if (Datas.ns_status == 5) {
-        return (
-          <div className="col-md-12">
-            <div className="position-relative row form-group">
-              <div className="col-sm-12">
-                <button onClick={() => window.location.href = '/400200#' + getParam[0]} className="mb-2 mr-2 btn btn-primary btn-lg btn-block">
-                  Publish
-              </button>
-              </div>
-            </div>
-          </div>
-        )
-      } else {
+      }  else {
         return (<div className="col-md-12"></div>)  
       }
 
-    }
-    const Publish = () => {
-      if (Datas.ns_status == 6 || Datas.ns_status == 7) {
-        return (
-        <div className="row">
-          <div className="col-md-6">
-            <div className="data-full">
-              <div className="data-title">Instragram</div>
-              <div className="data-body">{Datas.ns_insta}</div>
-            </div>
-          </div>
-          <div className="col-md-6">
-            <div className="data-full">
-              <div className="data-title">Whatsapp</div>
-              <div className="data-body">{Datas.ns_wa}</div>
-            </div>
-          </div>
-          <div className="col-md-12">
-            <div className="data-full">
-              <div className="data-title">Cover</div>
-              <div className="data-body">
-                <i className="pe-7s-file icon-gradient bg-mean-fruit"></i>
-                {Datas.ns_cover}
-              </div>
-            </div>
-          </div>
-        </div>
-        )
-      } else {
-        return (<div></div>)
-      }
     }
     return (
       <div className="row">
@@ -134,19 +107,13 @@ function Views() {
               <div className="data-body">{Datas.k_name}</div>
             </div>
           </div>
-          <div className="col-md-4">
+          <div className="col-md-6">
             <div className="data-full">
               <div className="data-title">Audience</div>
               <div className="data-body">{Datas.ns_audience}</div>
             </div>
           </div>
-          <div className="col-md-4">
-            <div className="data-full">
-              <div className="data-title">Copyright</div>
-              <div className="data-body">{Datas.ns_copyright}</div>
-            </div>
-          </div>
-          <div className="col-md-4">
+          <div className="col-md-6">
             <div className="data-full">
               <div className="data-title">Status</div>
               <div className="data-body">
@@ -156,12 +123,21 @@ function Views() {
               </div>
             </div>
           </div>
-          <div className="col-md-12">
+          <div className="col-md-6">
             <div className="data-full">
               <div className="data-title">Naskah</div>
               <div className="data-body">
                 <i className="pe-7s-file icon-gradient bg-mean-fruit"></i> 
                 {Datas.ns_files}
+              </div>
+            </div>
+          </div>
+          <div className="col-md-6">
+            <div className="data-full">
+              <div className="data-title">Cover</div>
+              <div className="data-body">
+                <i className="pe-7s-file icon-gradient bg-mean-fruit"></i> 
+                {Datas.ns_copyright}
               </div>
             </div>
           </div>
@@ -174,7 +150,7 @@ function Views() {
           </div>
         </div>
         </div>
-        <div className="col-md-12">
+        <div className="col-md-12" style={{marginBottom: "20px"}}>
           <Publish></Publish>
         </div>
         <Prosses></Prosses>
