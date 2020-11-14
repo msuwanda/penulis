@@ -28,7 +28,7 @@
 	}
 	if ($in->appkey == "@?t-E#EC2JUge") {
 		try {
-			$que 	= "SELECT * FROM tr_category ".$filter." ".$page;
+			$que 	= "SELECT * FROM tr_category ".$filter." ".$page." ORDER BY k_id ASC";
 			$sth 	= $PLINK->prepare($que);
 			if (isset($in->search)) {
 				$data = array();
