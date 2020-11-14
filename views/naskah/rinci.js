@@ -86,8 +86,8 @@ function Views() {
           <div className="col-md-12">
             <div className="position-relative row form-group">
               <div className="col-sm-12">
-                <button onClick={() => handleUpdate('Publish Book', '7')} className="mt-4 mr-2 btn btn-primary btn-lg btn-block">
-                  Published
+                <button onClick={() => window.location.href = "/400200#" + getParam[0]} className="mt-4 mr-2 btn btn-success btn-lg btn-block">
+                  Publish Book
               </button>
               </div>
             </div>
@@ -139,19 +139,13 @@ function Views() {
                 <div className="data-body">{Datas.k_name}</div>
               </div>
             </div>
-            <div className="col-md-4">
+            <div className="col-md-6">
               <div className="data-full">
                 <div className="data-title">Audience</div>
                 <div className="data-body">{Datas.ns_audience}</div>
               </div>
             </div>
-            <div className="col-md-4">
-              <div className="data-full">
-                <div className="data-title">Copyright</div>
-                <div className="data-body">{Datas.ns_copyright}</div>
-              </div>
-            </div>
-            <div className="col-md-4">
+            <div className="col-md-6">
               <div className="data-full">
                 <div className="data-title">Status</div>
                 <div className="data-body">
@@ -161,7 +155,15 @@ function Views() {
                 </div>
               </div>
             </div>
-            <div className="col-md-12">
+            <div className="col-md-6">
+              <div className="data-full">
+                <div className="data-title">Cover</div>
+                <div className="data-body">{Datas.ns_copyright} 
+                  <a href={"/files/" + Datas.ns_copyright} className="btn btn-light float-md-right"><i className="pe-7s-cloud-download"></i> Download</a>
+                </div>
+              </div>
+            </div>
+            <div className="col-md-6">
               <div className="data-full">
                 <div className="data-title">Naskah</div>
                 <div className="data-body">

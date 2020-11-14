@@ -7,24 +7,24 @@
     $file = $_FILES ;
     $in = $_POST ;
     $namefile = rand(1,999)."-".$_FILES['upfile']['name'] ;
-    if(move_uploaded_file($_FILES['upfile']['tmp_name'],"./files/".$namefile)) {
+    if(move_uploaded_file($_FILES['upfile']['tmp_name'],"./files/images/".$namefile)) {
 
         try{
             $PLINK->beginTransaction();
-            $que	= "UPDATE tm_naskah SET ns_cover = :fils, ns_insta = :insta, ns_wa = :wapp, ns_status = :nsstatus WHERE ns_id = :nsid ";
+            $que	= "INSERT INTO tm_buku SET photo = :fils, harga = :harga, naskah_id = :naskahid, tokoly = :tokoly, tokopedia = :tokopedia, bukalapak = :bukalapak ";
             $sth	= $PLINK->prepare($que) ;
-            $sth->bindValue(":insta",$in['insta'], PDO::PARAM_STR) ;
-            $sth->bindValue(":wapp",$in['wapp'], PDO::PARAM_STR) ;
-            $sth->bindValue(":nsstatus",'6', PDO::PARAM_STR) ;
-            $sth->bindValue(":nsid",$in['nsid'], PDO::PARAM_STR) ;
             $sth->bindValue(":fils",$namefile, PDO::PARAM_STR) ;
-                $sth->execute() ; 
-                $title  = "Good Job!" ;
-                $pesan 	= "Data telah berhasil disimpan";
-                $kelas	= "success";
-                $error  = "0" ;
-                
-                
+            $sth->bindValue(":harga",$in['harga'], PDO::PARAM_STR) ;
+            $sth->bindValue(":naskahid",$in['naskah_id'], PDO::PARAM_STR) ;
+            $sth->bindValue(":tokoly",$in['tokoly'], PDO::PARAM_STR) ;
+            $sth->bindValue(":tokopedia",$in['tokopedia'], PDO::PARAM_STR) ;
+            $sth->bindValue(":bukalapak",$in['bukulapak'], PDO::PARAM_STR) ;
+
+            $sth->execute() ; 
+            $title  = "Good Job!" ;
+            $pesan 	= "Data telah berhasil disimpan";
+            $kelas	= "success";
+            $error  = "0" ;
             $PLINK->commit();
         }
         catch(Exception $e){

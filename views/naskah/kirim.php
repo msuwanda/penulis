@@ -58,7 +58,7 @@
                     <label for="exampletext" class=""><b>File Naskah :</b></label>
                     <input name="upfile" required type="file" class="form-control-file" accept=".docx">
                     <small class="form-text text-muted">
-                        Download format naskah <a href="https://drive.google.com/file/d/1mxyRfLKwBL_oBbn-ulx8nz17HXRk-QR0/view?usp=sharing" >template ukuran novel (13,20).docx </a>
+                        Download format naskah <a target="_blank" href="https://drive.google.com/file/d/1iy_l7hHe714HBipZadGOkNbncopXDRWB/view?usp=sharing" >template naskah.docx </a>
                     </small>
                 </div>
             </div>
@@ -67,14 +67,14 @@
                     <label for="exampletext" class=""><b>File Cover :</b></label>
                     <input name="upfilec" type="file" class="form-control-file" accept=".psd">
                     <small class="form-text text-muted">
-                        Download format cover <a href="https://drive.google.com/file/d/14nATLFlOxIgh-pREdJuFtD0IexkYdgMR/view?usp=sharing" >template cover.psd </a>
+                        Download format cover <a target="_blank" href="https://drive.google.com/file/d/1gCMQ98oLeb7xZeU1ZH02giKxxvI-p2hA/view?usp=sharing" >template cover.psd </a>
                     </small>
                 </div>
             </div>
             <div class="col-md-12">
                 <div class="position-relative form-group">
                     <label for="exampletext" class=""><b>Sinopsis :</b></label>
-                    <textarea name="deks" class="form-control" required minlength="150" id="dekse" maxlength="250"></textarea>
+                    <textarea name="deks" class="form-control" required minlength="300" id="dekse" maxlength="500"></textarea>
                 </div>
             </div>
             <div class="col-md-12">

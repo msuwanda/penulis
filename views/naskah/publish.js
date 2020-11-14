@@ -1,6 +1,6 @@
 function simpanData() {
     const form = new FormData(document.querySelector('#formdata'));
-    form.append('nsid', getParam[0]);
+    form.append('naskah_id', getParam[0]);
     const url = './publish.php'
     const request = new Request(url, {
         method: 'POST',
@@ -18,7 +18,7 @@ function simpanData() {
                 confirmButtonText: 'OK'
             }).then((result) => {
                 if (data.error == 0) {
-                    window.location.href = "/400100#" + getParam[0];
+                    window.location.href = "/300100#" + getParam[0];
                 }
                 else {
                     console.log(data.error);

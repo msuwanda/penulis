@@ -12,17 +12,32 @@
         <div class="row">
             <div class="col-md-6">
                 <div class="position-relative form-group">
-                    <label for="exampletext" class=""><b>Instragram :</b></label>
-                    <input name="insta" placeholder="user.name" type="text" class="form-control" required>
+                    <label for="exampletext" class=""><b>Harga</b></label>
+                    <input name="harga" placeholder="Harga" type="number" class="form-control" required>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="position-relative form-group">
-                    <label for="exampletext" class=""><b>Cover :</b></label>
-                    <input name="upfile" required type="file" class="form-control-file" accept=".psd">
-                    <small class="form-text text-muted">
-                        <a href="https://drive.google.com/file/d/14nATLFlOxIgh-pREdJuFtD0IexkYdgMR/view?usp=sharing">download<a> Template conver jika anda mau bikin cover sendiri <br> (untuk yang tidak punya cover upload template kosong)
-                    </small>
+                    <label for="exampletext" class=""><b>Photo buku :</b></label>
+                    <input name="upfile" required type="file" class="form-control-file">
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="position-relative form-group">
+                    <label for="exampletext" class=""><b>toko.ly</b></label>
+                    <input name="tokoly" placeholder="https://toko.ly/penerbitinnovasi/" type="text" class="form-control" required>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="position-relative form-group">
+                    <label for="exampletext" class=""><b>Tokopedia</b></label>
+                    <input name="tokopedia" placeholder="https://www.tokopedia.com/name-toko/name-produk" type="text" class="form-control" required>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="position-relative form-group">
+                    <label for="exampletext" class=""><b>Bukulapak</b></label>
+                    <input name="bukulapak" placeholder="https://www.bukalapak.com/p/name-produk" type="text" class="form-control" required>
                 </div>
             </div>
             <div class="col-md-12">
