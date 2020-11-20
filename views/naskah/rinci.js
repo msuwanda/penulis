@@ -81,6 +81,18 @@ function Views() {
             </div>
           </div>
         )
+      } else if (Datas.ns_status == 3) {
+        return (
+          <div className="col-md-12">
+            <div className="position-relative row form-group">
+              <div className="col-sm-12">
+                <button onClick={() => handleUpdate('Ready to be published', '5')} className="mt-4 mb-2 btn btn-success btn-lg btn-block">
+                  Ready to be published
+                </button>
+              </div>
+            </div>
+          </div>
+        )
       } else if (Datas.ns_status == 5) {
         return (
           <div className="col-md-12">

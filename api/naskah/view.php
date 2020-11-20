@@ -26,7 +26,7 @@
 	}
 	if ($in->appkey == "@?t-E#EC2JUge-^yxC!P97uvQ7K#eM8hrUj=PW=EV_x49_-Xxqu@TWt?FUtv") {
 		try {
-			$que 	= "SELECT * FROM v_naskah ".$filter." ".$page;
+			$que 	= "SELECT * FROM v_naskah ".$filter." ORDER BY ns_id DESC  ".$page;
 			$sth 	= $PLINK->prepare($que);
 			if (isset($in->search)) {
 				$data = array();
