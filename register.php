@@ -24,7 +24,15 @@
     =========================================================
     * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
     -->
-  <link href="./main.css" rel="stylesheet">
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-J7RNXCB1G9"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-J7RNXCB1G9');
+    </script>
+    <link href="./main.css" rel="stylesheet">
   <link rel="stylesheet" type="text/css" href="assets/style.css" />
   <style>
     .form-line {
@@ -182,14 +190,7 @@
     }
   </script>
   <!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-J7RNXCB1G9"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
 
-  gtag('config', 'G-J7RNXCB1G9');
-</script>
 
 </html>
 
